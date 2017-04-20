@@ -7,7 +7,6 @@
 class Carro: public Thread {
     static int capacidade;
 	int voltas;
-    int maxVoltas;
 	int numPassageiros;
 	Parque &parque;
 
@@ -17,7 +16,6 @@ class Carro: public Thread {
 	void esperaEncher();
 	void daUmaVolta();
 	void esperaEsvaziar();
-    void setMaxVoltas( int );
 	int getNVoltas();
 	Parque &getParque();
     virtual void run();

@@ -2,8 +2,9 @@
 #define PASSAGEIRO_H_
 
 #include "carro.h"
+#include "thread.h"
 
-class Passageiro {
+class Passageiro: public Thread {
     Carro &carro;
 
  public:

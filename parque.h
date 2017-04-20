@@ -2,7 +2,8 @@
 #define PARQUE_H_
 
 class Parque {
-    numPessoas;
+    int numPessoas;
+    
  public:
     Parque(int );
 	virtual ~Parque();

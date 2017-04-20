@@ -1,18 +1,20 @@
 #include <iostream>
 #include "passageiro.h"
 
-void main() {
+using namespace std;
+
+int main() {
 
     int numPessoas;
-    cout << "Digite o numero de pessoas no parque" << endl;
+    cout << "Digite o numero de pessoas no parque" << std::endl;
     cin >> numPessoas;
 
     Parque parque( numPessoas );
 
-    Carro carro( &parque );
-    
+    Carro carro( parque );
+
     carro.setMaxVoltas( 10 );
-    carro.run;
+    carro.run();
 
     return 0;
 }

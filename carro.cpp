@@ -1,11 +1,11 @@
 #include "carro.h"
 
-int Carro::capacidade = 0;;
+int Carro::capacidade = 0;
 
 Carro::Carro( Parque &p ) : parque(p) {
 	voltas = 0;
 	Carro::capacidade = p.getNumPessoas() / 2;
-	nPassageiros = 0;
+	numPassageiros = 0;
 }
 
 Carro::~Carro() {

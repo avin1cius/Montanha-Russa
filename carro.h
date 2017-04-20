@@ -2,8 +2,9 @@
 #define CARRO_H_
 
 #include "parque.h"
+#include "thread.h"
 
-class Carro {
+class Carro: public Thread {
     static int capacidade;
 	int voltas;
     int maxVoltas;
@@ -19,6 +20,7 @@ class Carro {
     void setMaxVoltas( int );
 	int getNVoltas();
 	Parque &getParque();
-}
+    virtual void run();
+};
 
 #endif /* CARRO_H_ */

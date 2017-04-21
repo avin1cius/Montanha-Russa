@@ -11,24 +11,18 @@ Passageiro::~Passageiro() {
 }
 
 void Passageiro::entraNoCarro() {
-    turn[id] = std::atomic_fetch_add( &ficha, 1 );
-    while (turn[id] != next);
     if ( carro.getNumPassageiros() < carro.getCapacidade() ) {//verifica se numPassageiros < capacidade e entra e incrementa
-        carro.sumNumPassageiros( 1 );
-        ++next;
+        carro.sumNumPassageiros( 1 ); //incrementa numPassageiros
     }
-
 }
 
 void Passageiro::esperaVoltaAcabar() {
     std::this_thread::sleep_for( std::chrono::seconds( 5 ));
-    while ( lock ); //espera Carro::daUmaVolta() liberar
 }
 
 void Passageiro::saiDoCarro() {
-    while ( std::atomic_flag_test_and_set( &lock ));
     carro.sumNumPassageiros( -1 ); //decrementa numPassageiros
-    lock = false;
+
 }
 
 void Passageiro::passeiaPeloParque() {
@@ -46,11 +40,19 @@ bool Passageiro::parqueFechado() {
 void Passageiro::run( int i ) {
     id = i;
 	while (!parqueFechado()) {
+
+        turn[id] = std::atomic_fetch_add( &ficha, 1 );
+        while (turn[id] != next);
 		entraNoCarro(); // protocolo de entrada
+        ++next;
+        while ( lock ); //aguardar Carro:esperaEncher
 
 		esperaVoltaAcabar();
+        while ( !lock );
 
+        while ( std::atomic_flag_test_and_set( &lock ));
 		saiDoCarro(); // protocolo de saida
+        lock = false;
 
 		passeiaPeloParque(); // secao nao critica
 	}

@@ -6,6 +6,9 @@ Carro::Carro( Parque &p ) : parque(p) {
 	voltas = 0;
 	Carro::capacidade = p.getNumPessoas() / 2;
 	numPassageiros = 0;
+	lock = true;
+	next = 1;
+	turn = new int [p.getNumPessoas()];
 }
 
 Carro::~Carro() {

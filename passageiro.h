@@ -6,7 +6,7 @@
 
 class Passageiro {
     Carro &carro;
-    size_t id;
+    int id;
 
  public:
     Passageiro(Carro &c);

@@ -20,17 +20,11 @@ int main() {
 
     Passageiro pass( carro );
 
-    atomic_flag lock;
-    
-    atomic<int> ficha = ATOMIC_VAR_INIT(1);
-
-    int next = 1, *turn = new int [numPessoas];
-    
-    std::thread tCarro = std::thread(carro.run);
+    std::thread tCarro = std::thread( &Carro::run, carro );
     std::thread *tPassageiro = new std::thread [numPessoas];
 
     for (int i = 1; i <= numPessoas; i++) { 
-        tPassageiro[i] = std::thread(pass.run);
+        tPassageiro[i] = std::thread( &Passageiro::run, pass, i );
     }
     return 0;
 }

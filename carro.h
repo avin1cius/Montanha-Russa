@@ -25,6 +25,10 @@ class Carro {
     int getNumPassageiros();
 	Parque &getParque();
     void run();
+
+	bool lock;
+    
+    int next, *turn;
 };
 
 #endif /* CARRO_H_ */

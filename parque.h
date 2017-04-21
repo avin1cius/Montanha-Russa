@@ -5,7 +5,7 @@ class Parque {
     int numPessoas;
     
  public:
-    Parque(int );
+    Parque( int );
 	virtual ~Parque();
 
     void setNumPessoas( int );

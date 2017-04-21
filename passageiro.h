@@ -2,10 +2,11 @@
 #define PASSAGEIRO_H_
 
 #include "carro.h"
-#include "thread.h"
+#include <cstdlib> //rand
 
-class Passageiro: public Thread {
+class Passageiro {
     Carro &carro;
+    size_t id;
 
  public:
     Passageiro(Carro &c);
@@ -15,6 +16,7 @@ class Passageiro: public Thread {
 	void saiDoCarro();
 	void passeiaPeloParque();
 	bool parqueFechado();
+    void run( int );
 };
 
 #endif /* PASSAGEIRO_H_ */

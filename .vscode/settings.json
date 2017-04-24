@@ -1,0 +1,13 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "workbench.welcome.enabled": true
+
+    "files.exclude": {
+	"**/.vscode": true,
+	"**/.gitignore": true,
+	"**/LICENSE": true,
+	"**/Makefile": true,
+	"**/*.o": true,
+	"**/*.d": true
+    }
+}

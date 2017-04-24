@@ -8,7 +8,7 @@ Carro::Carro( Parque &p ) : parque(p) {
 	numPassageiros = 0;
 	lock = true;
 	next = 1;
-	turn = new int [p.getNumPessoas()];
+	turn = new int [p.getNumPessoas() + 1];
 }
 
 Carro::~Carro() {
@@ -24,6 +24,7 @@ void Carro::daUmaVolta() {
 
 void Carro::sumNumPassageiros( int num) {
     numPassageiros += num;
+    //std::cout<<"numPassageiros "<< numPassageiros << std::endl;
 }
 
 void Carro::esperaEsvaziar() {

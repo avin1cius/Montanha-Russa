@@ -6,6 +6,7 @@
 #include <atomic>
 #include <pthread.h>
 
+
 using namespace std;
 
 int main() {
@@ -21,15 +22,16 @@ int main() {
     Passageiro pass( carro );
 
     std::thread tCarro = std::thread( &Carro::run, carro );
+
     std::thread *tPassageiro = new std::thread [numPessoas];
 
-    for (int i = 1; i <= numPessoas; i++) { 
-        tPassageiro[i] = std::thread( &Passageiro::run, pass, i );
+    for (int i = 0; i < numPessoas; i++) {
+        tPassageiro[i] = std::thread( &Passageiro::run, pass, i+1 );
     }
 
-    for (int i = 1; i <= numPessoas; i++) { 
+    for (int i = 0; i < numPessoas; i++) {
         tPassageiro[i].join();
     }
-    
+
     return 0;
 }

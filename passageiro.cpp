@@ -1,8 +1,8 @@
 #include "passageiro.h"
 
-#define MAX_NUM_VOLTAS 100
+#define MAX_NUM_VOLTAS 10
 
-int randTime, ficha;
+int randTime, ficha = 1;
 
 Passageiro::Passageiro(Carro &c) : carro(c) {
 }
@@ -11,8 +11,11 @@ Passageiro::~Passageiro() {
 }
 
 void Passageiro::entraNoCarro() {
-    if ( carro.getNumPassageiros() < carro.getCapacidade() ) {//verifica se numPassageiros < capacidade e entra e incrementa
+    if ( carro.getNumPassageiros() < carro.getCapacidade() ) { //verifica se numPassageiros < capacidade e entra e incrementa
         carro.sumNumPassageiros( 1 ); //incrementa numPassageiros
+
+        if( carro.getNumPassageiros() < carro.getCapacidade() ) //
+            carro.next++;
     }
 }
 
@@ -47,7 +50,6 @@ void Passageiro::run( int i ) {
         carro.turn[id] = david.FA( ficha, 1 );
         while (carro.turn[id] != carro.next);
 		entraNoCarro(); // protocolo de entrada
-        ++carro.next;
         while ( carro.lock ); //aguardar Carro:esperaEncher
 
 		esperaVoltaAcabar();

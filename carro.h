@@ -1,9 +1,11 @@
 #ifndef CARRO_H_
 #define CARRO_H_
 
+#include <iostream>
 #include "parque.h"
 #include <thread>
 #include <atomic>
+#include <pthread.h>
 #include "david.h"
 
 class Carro {
@@ -28,7 +30,7 @@ class Carro {
     void run();
 
 	bool lock;
-    
+
     int next, *turn;
 };
 

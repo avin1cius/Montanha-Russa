@@ -24,7 +24,6 @@ void Carro::daUmaVolta() {
 
 void Carro::sumNumPassageiros( int num) {
     numPassageiros += num;
-    //std::cout<<"numPassageiros "<< numPassageiros << std::endl;
 }
 
 void Carro::esperaEsvaziar() {

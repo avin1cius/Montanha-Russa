@@ -16,7 +16,7 @@ Carro::~Carro() {
 
 void Carro::esperaEncher() {
     while ( numPassageiros != capacidade ); //aguarda ate numPassageiros == capacidade
-	}
+}
 
 void Carro::daUmaVolta() {
     std::this_thread::sleep_for( std::chrono::seconds( 5 )); //dorme alguns segundos

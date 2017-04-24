@@ -11,8 +11,8 @@ using namespace std;
 int main() {
 
     int numPessoas;
-    cout << "Digite o numero de pessoas no parque" << endl;
-    cin >> numPessoas;
+    std::cout << "Digite o numero de pessoas no parque" << std::endl;
+    std::cin >> numPessoas;
 
     Parque parque( numPessoas );
 
@@ -26,5 +26,10 @@ int main() {
     for (int i = 1; i <= numPessoas; i++) { 
         tPassageiro[i] = std::thread( &Passageiro::run, pass, i );
     }
+
+    for (int i = 1; i <= numPessoas; i++) { 
+        tPassageiro[i].join();
+    }
+    
     return 0;
 }

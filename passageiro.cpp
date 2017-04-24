@@ -2,8 +2,7 @@
 
 #define MAX_NUM_VOLTAS 100
 
-int randTime;
-static std::atomic<int> ficha = ATOMIC_VAR_INIT(1);
+int randTime, ficha;
 
 Passageiro::Passageiro(Carro &c) : carro(c) {
 }
@@ -40,9 +39,12 @@ bool Passageiro::parqueFechado() {
 
 void Passageiro::run( int i ) {
     id = i;
+
+    David david;
+
 	while (!parqueFechado()) {
 
-        carro.turn[id] = std::atomic_fetch_add( &ficha, 1 );
+        carro.turn[id] = david.FA( ficha, 1 );
         while (carro.turn[id] != carro.next);
 		entraNoCarro(); // protocolo de entrada
         ++carro.next;
@@ -51,7 +53,7 @@ void Passageiro::run( int i ) {
 		esperaVoltaAcabar();
         while ( !carro.lock );
 
-        while ( std::atomic_flag_test_and_set( &carro.lock ));
+        while ( david.TS( &carro.lock ));
 		saiDoCarro(); // protocolo de saida
         carro.lock = false;
 

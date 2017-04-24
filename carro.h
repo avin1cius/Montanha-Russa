@@ -4,6 +4,7 @@
 #include "parque.h"
 #include <thread>
 #include <atomic>
+#include "david.h"
 
 class Carro {
     static int capacidade;

@@ -11,6 +11,7 @@ Passageiro::~Passageiro() {
 }
 
 void Passageiro::entraNoCarro() {
+    carro.sumNumPassageiros( 1 );
     if ( carro.getNumPassageiros() < carro.getCapacidade()) //
         carro.next++;
 }

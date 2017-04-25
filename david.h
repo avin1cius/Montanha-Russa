@@ -4,26 +4,25 @@
 
 class David
 {
- public:
+    std::mutex lock_mutex;
+  public:
     David(){
     };
 
-    std::mutex lock_mutex;
-
-    bool TS(bool lock){
+    bool TS(bool &lock){
         lock_mutex.lock();
         bool initial = lock;
         lock = true;
-        return initial;
         lock_mutex.unlock();
+        return initial;
     }
 
     int FA(int &var, int incr){
         lock_mutex.lock();
         int tmp = var;
         var = var + incr;
-        return tmp;
         lock_mutex.unlock();
+        return tmp;
     }
 
 };

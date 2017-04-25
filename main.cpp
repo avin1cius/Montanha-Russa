@@ -15,11 +15,11 @@ int main() {
     std::cout << "Digite o numero de pessoas no parque" << std::endl;
     std::cin >> numPessoas;
 
-    Parque parque( numPessoas );
+    Parque *parque = new Parque( numPessoas );
 
-    Carro carro( parque );
+    Carro *carro = new Carro( *parque );
 
-    Passageiro pass( carro );
+    Passageiro pass( *carro );
 
     std::thread tCarro = std::thread( &Carro::run, carro );
 
@@ -32,6 +32,8 @@ int main() {
     for (int i = 0; i < numPessoas; i++) {
         tPassageiro[i].join();
     }
+
+    delete carro;
 
     return 0;
 }

@@ -1,13 +1,15 @@
-#ifndef DAVID_H_INCLUDED
-#define DAVID_H_INCLUDED
+#ifndef ATOMICO_H
+#define ATOMICO_H
+
 #include <mutex>
 
-class David
-{
+class Atomico {
     std::mutex lock_mutex;
+
   public:
-    David(){
-    };
+
+    Atomico() {
+    }
 
     bool TS(bool &lock){
         lock_mutex.lock();
@@ -24,7 +26,6 @@ class David
         lock_mutex.unlock();
         return tmp;
     }
-
 };
 
-#endif // DAVID_H_INCLUDED
+#endif /* ATOMICO_H  */

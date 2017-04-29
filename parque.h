@@ -3,13 +3,14 @@
 
 class Parque {
     int numPessoas;
-    
+
  public:
     Parque( int );
 	virtual ~Parque();
 
     void setNumPessoas( int );
-    int getNumPessoas();	
+    int getNumPessoas();
+    void sumNumPessoas( int );
 };
 
 #endif /* PARQUE_H_ */

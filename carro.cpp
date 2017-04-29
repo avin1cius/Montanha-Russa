@@ -15,22 +15,26 @@ Carro::~Carro() {
 }
 
 void Carro::esperaEncher() {
-    while ( Carro::numPassageiros != capacidade );
-    std::cout << "Encheu" << std::endl;
+    while ( numPassageiros != capacidade );
+    std::cerr << "Encheu" << std::endl;
+    lock = true;
 }
 
 void Carro::daUmaVolta() {
-    std::cout << voltas << "ª volta iniciada" << std::endl;
-    std::this_thread::sleep_for( std::chrono::seconds( 10 )); //dorme alguns segundos
-    std::cout << voltas << "ª volta finalizada" << std::endl;
-}
-
-void Carro::sumNumPassageiros( int num) {
-    Carro::numPassageiros += num;
+    std::cerr << voltas << "ª volta iniciada" << std::endl;
+    std::this_thread::sleep_for( std::chrono::seconds( TEMP_VOLTA )); //dorme alguns segundos
+    std::cerr << voltas << "ª volta finalizada" << std::endl;
+    lock = false;
 }
 
 void Carro::esperaEsvaziar() {
     while ( numPassageiros );
+    std::cerr<<"Esvaziou"<<std::endl;
+}
+
+void Carro::sumNumPassageiros( int num) {
+    numPassageiros += num;
+    std::cerr << "numPass " << numPassageiros << std::endl;
 }
 
 int Carro::getNVoltas() {
@@ -50,15 +54,17 @@ Parque &Carro::getParque() {
 }
 
 void Carro::run() {
-	while (parque.getNumPessoas() > 0) {
+	while ( next != MAX_NUM_VOLTAS * getCapacidade() + 1 ) {
 		esperaEncher();  //aguarda Passageiro::entraNoCarro()
-		lock = true;
+
 		daUmaVolta();
-		lock = false;
 
 		esperaEsvaziar(); //aguarda Passageiro::saiDoCarro() zerar numPassageiros
 
 		++voltas;
 		++next;
 	}
+
+	while ( parque.getNumPessoas());
+	std::cerr << "Parque fechou" << std::endl;
 }

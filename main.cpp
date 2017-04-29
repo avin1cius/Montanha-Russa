@@ -1,11 +1,5 @@
 #include <iostream>
-#include "parque.h"
-#include "carro.h"
 #include "passageiro.h"
-#include <thread>
-#include <atomic>
-#include <pthread.h>
-
 
 using namespace std;
 
@@ -32,6 +26,8 @@ int main() {
     for (int i = 0; i < numPessoas; i++) {
         tPassageiro[i].join();
     }
+
+    tCarro.join();
 
     delete carro;
 

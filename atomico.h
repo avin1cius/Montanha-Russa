@@ -4,9 +4,10 @@
 #include <mutex>
 
 class Atomico {
-    std::mutex lock_mutex;
 
   public:
+
+    std::mutex lock_mutex, print_mutex;
 
     Atomico() {
     }

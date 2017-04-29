@@ -16,10 +16,10 @@ class Carro {
 	int numPassageiros;
     bool fimVolta;
 	Parque &parque;
-    size_t id;
+	Atomico &atomic;
 
  public:
-    Carro(Parque &p);
+    Carro( Parque &p, Atomico &a );
 	virtual ~Carro();
 	void esperaEncher();
 	void daUmaVolta();

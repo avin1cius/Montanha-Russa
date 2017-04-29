@@ -11,9 +11,11 @@ int main() {
 
     Parque *parque = new Parque( numPessoas );
 
-    Carro *carro = new Carro( *parque );
+    Atomico *atomic = new Atomico();
 
-    Passageiro pass( *carro );
+    Carro *carro = new Carro( *parque , *atomic);
+
+    Passageiro pass( *carro, *atomic );
 
     std::thread tCarro = std::thread( &Carro::run, carro );
 

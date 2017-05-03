@@ -19,6 +19,7 @@ class Carro {
 	Atomico &atomic;
 
  public:
+    //int numPassageiros;
     Carro( Parque &p, Atomico &a );
 	virtual ~Carro();
 	void esperaEncher();

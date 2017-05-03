@@ -5,12 +5,12 @@ class Parque {
     int numPessoas;
 
  public:
+    //int numPessoas;
     Parque( int );
 	virtual ~Parque();
 
     void setNumPessoas( int );
     int getNumPessoas();
-    void sumNumPessoas( int );
 };
 
 #endif /* PARQUE_H_ */

@@ -15,7 +15,3 @@ void Parque::setNumPessoas( int num ) {
 int Parque::getNumPessoas() {
 	return numPessoas;
 }
-
-void Parque::sumNumPessoas( int num ) {
-    numPessoas += num;
-}

@@ -18,7 +18,7 @@ void Carro::esperaEncher() {
     while ( numPassageiros != capacidade );
 
     atomic.print_mutex.lock();
-    std::cerr << "Encheu" << std::endl;
+    std::cerr << "Carro cheio" << std::endl;
     atomic.print_mutex.unlock();
 
     lock = true;
@@ -42,7 +42,7 @@ void Carro::esperaEsvaziar() {
     while ( numPassageiros );
 
     atomic.print_mutex.lock();
-    std::cerr<<"Esvaziou"<<std::endl;
+    std::cerr << "Carro vazio" << std::endl << std::endl;
     atomic.print_mutex.unlock();
 }
 
@@ -81,6 +81,6 @@ void Carro::run() {
 	while ( parque.getNumPessoas());
 
     atomic.print_mutex.lock();
-	std::cerr << "Parque fechou" << std::endl;
+	std::cerr << std::endl << "Parque fechou" << std::endl;
 	atomic.print_mutex.unlock();
 }

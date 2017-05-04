@@ -35,8 +35,8 @@ void Passageiro::saiDoCarro() {
     std::cerr << "Passageiro " << id << " saiu do carro e foi passear por " << randTime << " segundos" << std::endl;
     atomic.print_mutex.unlock();
 
-    //int *numPassageiros = *carro.getNumPassageiros();
-    atomic.FA( carro.getNumPassageiros(), -1 );
+    atomic.FA( carro.numPassageiros, -1 );
+    //atomic.FA( carro.getNumPassageiros(), -1 );
     //carro.sumNumPassageiros( -1 ); //decrementa numPassageiros
 }
 
@@ -85,7 +85,6 @@ void Passageiro::run( int i ) {
 	std::cerr << "Passageiro " << id << " saiu do parque" << std::endl;
 	atomic.print_mutex.unlock();
 
-	//int numPessoas = parque->getNumPessoas();
-	atomic.FA( parque->getNumPessoas(), -1 );
-	//parque->sumNumPessoas( -1 ); // decrementa o numero de pessoas no parque
+	atomic.FA( parque->numPessoas, -1 );
+	//atomic.FA( parque->getNumPessoas(), -1 );
 }

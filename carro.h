@@ -13,13 +13,13 @@
 class Carro {
     static int capacidade;
 	int voltas;
-	int numPassageiros;
+	//int numPassageiros;
     bool fimVolta;
 	Parque &parque;
 	Atomico &atomic;
 
  public:
-    //int numPassageiros;
+    int numPassageiros;
     Carro( Parque &p, Atomico &a );
 	virtual ~Carro();
 	void esperaEncher();

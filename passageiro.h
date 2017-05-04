@@ -6,10 +6,11 @@
 
 class Passageiro {
     Carro &carro;
+    Atomico &atomic;
     int id;
 
  public:
-    Passageiro(Carro &c);
+    Passageiro( Carro &c, Atomico &a );
     virtual ~Passageiro();
     void entraNoCarro();
 	void esperaVoltaAcabar();

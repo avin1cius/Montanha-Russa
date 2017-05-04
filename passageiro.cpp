@@ -1,38 +1,51 @@
 #include "passageiro.h"
 
-#define MAX_NUM_VOLTAS 100
+int randTime, ficha = 1;
 
-int randTime;
-static std::atomic<int> ficha = ATOMIC_VAR_INIT(1);
-
-Passageiro::Passageiro(Carro &c) : carro(c) {
+Passageiro::Passageiro( Carro &c, Atomico &a ) : carro(c), atomic(a) {
 }
 
 Passageiro::~Passageiro() {
 }
 
 void Passageiro::entraNoCarro() {
-    if ( carro.getNumPassageiros() < carro.getCapacidade() ) {//verifica se numPassageiros < capacidade e entra e incrementa
-        carro.sumNumPassageiros( 1 ); //incrementa numPassageiros
-    }
+    atomic.print_mutex.lock();
+    std::cerr << "Passageiro " << id << " entrou com ficha " << carro.turn[id] << std::endl;
+    atomic.print_mutex.unlock();
+
+    carro.sumNumPassageiros( 1 );
+
+    if ( carro.getNumPassageiros() < carro.getCapacidade()) //
+        carro.next++;
+
+    while ( !carro.lock );
 }
 
 void Passageiro::esperaVoltaAcabar() {
-    std::this_thread::sleep_for( std::chrono::seconds( 5 ));
+    //std::this_thread::sleep_for( std::chrono::seconds( TEMP_VOLTA ));
+    while ( carro.lock );
 }
 
 void Passageiro::saiDoCarro() {
-    carro.sumNumPassageiros( -1 ); //decrementa numPassageiros
+    atomic.print_mutex.lock();
+    randTime = ( float (rand()) / float (RAND_MAX) ) * 10 + 5; //variando entre 5 e 15
+    atomic.print_mutex.unlock();
 
+    atomic.print_mutex.lock();
+    std::cerr << "Passageiro " << id << " saiu do carro e foi passear por " << randTime << " segundos" << std::endl;
+    atomic.print_mutex.unlock();
+
+    atomic.FA( carro.numPassageiros, -1 );
+    //atomic.FA( carro.getNumPassageiros(), -1 );
+    //carro.sumNumPassageiros( -1 ); //decrementa numPassageiros
 }
 
 void Passageiro::passeiaPeloParque() {
-    randTime = ( float (rand()) / float (RAND_MAX) ) * 10 + 5; //variando entre 5 e 15
-    std::this_thread::sleep_for( std::chrono::seconds(randTime) ); //dorme por randTime segundos
+    std::this_thread::sleep_for( std::chrono::seconds(randTime)); //dorme por randTime segundos
 }
 
 bool Passageiro::parqueFechado() {
-	if (carro.getNVoltas() <= MAX_NUM_VOLTAS)
+	if ( carro.getNVoltas() <= MAX_NUM_VOLTAS )
 		return false;
 
 	return true;
@@ -40,23 +53,38 @@ bool Passageiro::parqueFechado() {
 
 void Passageiro::run( int i ) {
     id = i;
+
 	while (!parqueFechado()) {
 
-        carro.turn[id] = std::atomic_fetch_add( &ficha, 1 );
-        while (carro.turn[id] != carro.next);
-		entraNoCarro(); // protocolo de entrada
-        ++carro.next;
-        while ( carro.lock ); //aguardar Carro:esperaEncher
+        if( ficha == MAX_NUM_VOLTAS * carro.getCapacidade() + 1 )
+            break;
 
-		esperaVoltaAcabar();
-        while ( !carro.lock );
+        carro.turn[id] = atomic.FA( ficha, 1 );
 
-        while ( std::atomic_flag_test_and_set( &carro.lock ));
+        /*atomic.print_mutex.lock();
+        std::cerr << "Passageiro " << id << " ficha " << carro.turn[id] << std::endl;
+        atomic.print_mutex.unlock();*/
+
+        while ( carro.turn[id] != carro.next );
+		entraNoCarro(); //aguarda Carro:esperaEncher()
+
+		esperaVoltaAcabar(); //aguarda Carro:daUmaVolta()
+
+		//while ( atomic.TS( carro.lock ));
+		//atomic.lock_mutex.lock();
 		saiDoCarro(); // protocolo de saida
-        carro.lock = false;
+		//atomic.lock_mutex.unlock();
+		//carro.lock = false;
 
 		passeiaPeloParque(); // secao nao critica
 	}
 
-	// decrementa o numero de passageiros no parque
+	Parque *parque = &carro.getParque();
+
+	atomic.print_mutex.lock();
+	std::cerr << "Passageiro " << id << " saiu do parque" << std::endl;
+	atomic.print_mutex.unlock();
+
+	atomic.FA( parque->numPessoas, -1 );
+	//atomic.FA( parque->getNumPessoas(), -1 );
 }

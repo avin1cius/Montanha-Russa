@@ -1,25 +1,31 @@
 #ifndef CARRO_H_
 #define CARRO_H_
 
-#include "parque.h"
+#include <iostream>
 #include <thread>
-#include <atomic>
+#include <pthread.h>
+#include "parque.h"
+#include "atomico.h"
+
+#define TEMP_VOLTA 5
+#define MAX_NUM_VOLTAS 5
 
 class Carro {
     static int capacidade;
 	int voltas;
-	int numPassageiros;
+	//int numPassageiros;
     bool fimVolta;
 	Parque &parque;
-    size_t id;
+	Atomico &atomic;
 
  public:
-    Carro(Parque &p);
+    int numPassageiros;
+    Carro( Parque &p, Atomico &a );
 	virtual ~Carro();
 	void esperaEncher();
 	void daUmaVolta();
-    void sumNumPassageiros( int );
 	void esperaEsvaziar();
+    void sumNumPassageiros( int );
 	int getNVoltas();
     int getCapacidade();
     int getNumPassageiros();
@@ -27,7 +33,7 @@ class Carro {
     void run();
 
 	bool lock;
-    
+
     int next, *turn;
 };
 

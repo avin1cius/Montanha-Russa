@@ -3,7 +3,7 @@
 int Carro::capacidade = 0;
 
 Carro::Carro( Parque &p, Atomico &a ) : parque(p), atomic(a) {
-	voltas = 1;
+	voltas = 0;
 	Carro::capacidade = p.getNumPessoas() / 2;
 	numPassageiros = 0;
 	lock = false;
@@ -26,13 +26,13 @@ void Carro::esperaEncher() {
 
 void Carro::daUmaVolta() {
     atomic.print_mutex.lock();
-    std::cerr << voltas << "ª volta iniciada" << std::endl;
+    std::cerr << voltas + 1 << "ª volta iniciada" << std::endl;
     atomic.print_mutex.unlock();
 
     std::this_thread::sleep_for( std::chrono::seconds( TEMP_VOLTA )); //dorme alguns segundos
 
     atomic.print_mutex.lock();
-    std::cerr << voltas << "ª volta finalizada" << std::endl;
+    std::cerr << voltas + 1 << "ª volta finalizada" << std::endl;
     atomic.print_mutex.unlock();
 
     lock = false;
@@ -67,7 +67,7 @@ Parque &Carro::getParque() {
 }
 
 void Carro::run() {
-	while ( next != MAX_NUM_VOLTAS * getCapacidade() + 1 ) {
+	while ( voltas != MAX_NUM_VOLTAS ) {
 		esperaEncher();  //aguarda Passageiro::entraNoCarro()
 
 		daUmaVolta();

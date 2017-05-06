@@ -7,7 +7,7 @@
 class Passageiro {
     Carro &carro;
     Atomico &atomic;
-    int id;
+    int id, randTime;
 
  public:
     Passageiro( Carro &c, Atomico &a );
@@ -18,6 +18,8 @@ class Passageiro {
 	void passeiaPeloParque();
 	bool parqueFechado();
     void run( int );
+
+    int nvoltas;
 };
 
 #endif /* PASSAGEIRO_H_ */

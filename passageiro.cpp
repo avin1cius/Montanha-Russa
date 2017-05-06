@@ -1,8 +1,9 @@
 #include "passageiro.h"
 
-int randTime, ficha = 1;
+int ficha = 1;
 
 Passageiro::Passageiro( Carro &c, Atomico &a ) : carro(c), atomic(a) {
+    nvoltas = 0;
 }
 
 Passageiro::~Passageiro() {
@@ -28,7 +29,7 @@ void Passageiro::esperaVoltaAcabar() {
 
 void Passageiro::saiDoCarro() {
     atomic.print_mutex.lock();
-    randTime = ( float (rand()) / float (RAND_MAX) ) * 10 + 5; //variando entre 5 e 15
+    randTime = ( float (rand()) / float (RAND_MAX) ) * 8 + 1; //variando entre 1 e 9
     atomic.print_mutex.unlock();
 
     atomic.print_mutex.lock();
@@ -38,6 +39,8 @@ void Passageiro::saiDoCarro() {
     atomic.FA( carro.numPassageiros, -1 );
     //atomic.FA( carro.getNumPassageiros(), -1 );
     //carro.sumNumPassageiros( -1 ); //decrementa numPassageiros
+    
+    nvoltas++;
 }
 
 void Passageiro::passeiaPeloParque() {
@@ -45,25 +48,18 @@ void Passageiro::passeiaPeloParque() {
 }
 
 bool Passageiro::parqueFechado() {
-	if ( carro.getNVoltas() <= MAX_NUM_VOLTAS )
+	if ( ficha != MAX_NUM_VOLTAS * carro.getCapacidade() + 1 )
 		return false;
 
 	return true;
 }
 
 void Passageiro::run( int i ) {
-    id = i;
+    id = i; 
 
 	while (!parqueFechado()) {
 
-        if( ficha == MAX_NUM_VOLTAS * carro.getCapacidade() + 1 )
-            break;
-
         carro.turn[id] = atomic.FA( ficha, 1 );
-
-        /*atomic.print_mutex.lock();
-        std::cerr << "Passageiro " << id << " ficha " << carro.turn[id] << std::endl;
-        atomic.print_mutex.unlock();*/
 
         while ( carro.turn[id] != carro.next );
 		entraNoCarro(); //aguarda Carro:esperaEncher()
@@ -71,9 +67,7 @@ void Passageiro::run( int i ) {
 		esperaVoltaAcabar(); //aguarda Carro:daUmaVolta()
 
 		//while ( atomic.TS( carro.lock ));
-		//atomic.lock_mutex.lock();
 		saiDoCarro(); // protocolo de saida
-		//atomic.lock_mutex.unlock();
 		//carro.lock = false;
 
 		passeiaPeloParque(); // secao nao critica
@@ -82,7 +76,7 @@ void Passageiro::run( int i ) {
 	Parque *parque = &carro.getParque();
 
 	atomic.print_mutex.lock();
-	std::cerr << "Passageiro " << id << " saiu do parque" << std::endl;
+	std::cerr << "Passageiro " << id << " saiu do parque com " << nvoltas << " realizadas" << std::endl;
 	atomic.print_mutex.unlock();
 
 	atomic.FA( parque->numPessoas, -1 );

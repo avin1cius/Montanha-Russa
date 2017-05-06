@@ -7,7 +7,7 @@
 #include "parque.h"
 #include "atomico.h"
 
-#define TEMP_VOLTA 5
+#define TEMP_VOLTA 3
 #define MAX_NUM_VOLTAS 5
 
 class Carro {

@@ -13,7 +13,7 @@ int main() {
 
     Atomico *atomic = new Atomico();
 
-    Carro *carro = new Carro( *parque , *atomic);
+    Carro *carro = new Carro( *parque , *atomic );
 
     Passageiro pass( *carro, *atomic );
 
@@ -21,11 +21,11 @@ int main() {
 
     std::thread *tPassageiro = new std::thread [numPessoas];
 
-    for (int i = 0; i < numPessoas; i++) {
+    for ( int i = 0; i < numPessoas; i++ ) {
         tPassageiro[i] = std::thread( &Passageiro::run, pass, i+1 );
     }
 
-    for (int i = 0; i < numPessoas; i++) {
+    for ( int i = 0; i < numPessoas; i++ ) {
         tPassageiro[i].join();
     }
 

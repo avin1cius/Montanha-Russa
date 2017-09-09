@@ -16,7 +16,7 @@ void Passageiro::entraNoCarro() {
 
     carro.sumNumPassageiros( 1 );
 
-    if ( carro.getNumPassageiros() < carro.getCapacidade()) //
+    if ( carro.getNumPassageiros() < carro.getCapacidade() ) //
         carro.next++;
 
     while ( !carro.lock );
@@ -37,9 +37,7 @@ void Passageiro::saiDoCarro() {
     atomic.print_mutex.unlock();
 
     atomic.FA( carro.numPassageiros, -1 );
-    //atomic.FA( carro.getNumPassageiros(), -1 );
-    //carro.sumNumPassageiros( -1 ); //decrementa numPassageiros
-    
+
     nvoltas++;
 }
 
@@ -57,7 +55,7 @@ bool Passageiro::parqueFechado() {
 void Passageiro::run( int i ) {
     id = i; 
 
-	while (!parqueFechado()) {
+	while ( !parqueFechado() ) {
 
         carro.turn[id] = atomic.FA( ficha, 1 );
 
@@ -66,9 +64,7 @@ void Passageiro::run( int i ) {
 
 		esperaVoltaAcabar(); //aguarda Carro:daUmaVolta()
 
-		//while ( atomic.TS( carro.lock ));
 		saiDoCarro(); // protocolo de saida
-		//carro.lock = false;
 
 		passeiaPeloParque(); // secao nao critica
 	}
@@ -80,5 +76,4 @@ void Passageiro::run( int i ) {
 	atomic.print_mutex.unlock();
 
 	atomic.FA( parque->numPessoas, -1 );
-	//atomic.FA( parque->getNumPessoas(), -1 );
 }

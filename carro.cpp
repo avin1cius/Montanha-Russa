@@ -78,7 +78,7 @@ void Carro::run() {
 		++next;
 	}
 
-	while ( parque.getNumPessoas());
+	while ( parque.getNumPessoas() );
 
     atomic.print_mutex.lock();
 	std::cerr << std::endl << "Parque fechou" << std::endl;

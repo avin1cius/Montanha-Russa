@@ -13,7 +13,6 @@
 class Carro {
     static int capacidade;
 	int voltas;
-	//int numPassageiros;
     bool fimVolta;
 	Parque &parque;
 	Atomico &atomic;
